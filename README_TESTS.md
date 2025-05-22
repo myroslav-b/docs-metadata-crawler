@@ -1,82 +1,82 @@
-# Тестування проекту DocsCrawler
+# DocsCrawler Project Testing
 
-Цей документ описує структуру та запуск тестів для проекту DocsCrawler.
+This document describes the structure and execution of tests for the DocsCrawler project.
 
-## Структура тестів
+## Test Structure
 
-Тести організовані відповідно до структури проекту:
+Tests are organized according to the project structure:
 
-1. **Кореневий пакет (main)**
-   - `urlstorage_test.go` - тести для сховища URL
-   - `crawler_test.go` - тести для функціональності обходу сайтів
-   - `engine_test.go` - тести для основного двигуна
-   - `main_test.go` - тести для парсингу параметрів командного рядка
+1. **Root package (main)**
+   - `urlstorage_test.go` - tests for URL storage
+   - `crawler_test.go` - tests for site crawling functionality
+   - `engine_test.go` - tests for the main engine
+   - `main_test.go` - tests for command line parameter parsing
 
-2. **Пакет researchers**
-   - `researcher_test.go` - тести для базової функціональності аналізаторів
-   - `pdf_test.go` - тести для аналізатора PDF
-   - `msox_test.go` - тести для аналізатора Microsoft Office файлів
+2. **Researchers package**
+   - `researcher_test.go` - tests for basic analyzer functionality
+   - `pdf_test.go` - tests for PDF analyzer
+   - `msox_test.go` - tests for Microsoft Office file analyzer
 
-## Запуск тестів
+## Running Tests
 
-### Вимоги
+### Requirements
 
-Для запуску тестів потрібно:
+To run tests, you need:
 
-1. Go версії 1.13 або вище
-2. Бібліотека testify: `go get github.com/stretchr/testify`
-3. Інші залежності проекту
+1. Go version 1.13 or higher
+2. Testify library: `go get github.com/stretchr/testify`
+3. Other project dependencies
 
-### Запуск всіх тестів
+### Running All Tests
 
 ```bash
 go test ./...
 ```
 
-### Запуск з покриттям коду
+### Running with Code Coverage
 
-Для запуску тестів з генерацією звіту про покриття коду:
+To run tests with code coverage report generation:
 
 ```bash
 ./run_tests.sh
 ```
 
-Цей скрипт виконає тести і згенерує HTML-звіт про покриття (coverage.html).
+This script will execute tests and generate an HTML coverage report (coverage.html).
 
-### Запуск конкретних тестів
+### Running Specific Tests
 
-Для запуску тестів конкретного файлу:
+To run tests for a specific file:
 
 ```bash
 go test -v ./... -run TestUrlStorage
 ```
 
-## Особливості тестування
+## Testing Features
 
-### Мок і заглушки
+### Mocks and Stubs
 
-Тести використовують моки для імітації:
-- HTTP-серверів (за допомогою `httptest`)
-- Аналізаторів документів (через інтерфейс `Researcher`)
-- Потоків введення/виведення
+Tests use mocks to simulate:
+- HTTP servers (using `httptest`)
+- Document analyzers (through the `Researcher` interface)
+- Input/output streams
 
-### Інтеграційні тести
+### Integration Tests
 
-Деякі інтеграційні тести (особливо тести, що потребують реальних файлів PDF/DOCX) 
-відключені за замовчуванням (через `t.Skip`). Для їх запуску потрібно:
+Some integration tests (especially tests requiring real PDF/DOCX files) 
+are disabled by default (via `t.Skip`). To run them:
 
-1. Створити каталог `testdata` і додати в нього реальні файли
-2. Видалити виклик `t.Skip()` з відповідних тестів
+1. Create a `testdata` directory and add real files to it
+2. Remove the `t.Skip()` call from the corresponding tests
 
-## Структура тестових файлів
+## Test File Structure
 
-Кожен тестовий файл дотримується наступної структури:
+Each test file follows this structure:
 
-1. Unit-тести для окремих функцій
-2. Моки для зовнішніх залежностей
-3. Інтеграційні тести (за потреби)
+1. Unit tests for individual functions
+2. Mocks for external dependencies
+3. Integration tests (when needed)
 
-## Відомі обмеження
+## Known Limitations
 
-- Тести для аналізаторів документів потребують реальних файлів для повноцінного тестування
-- Тести для `main.go` не охоплюють фактичний вхід у програму через обмеження тестування функцій з `os.Exit()`
+- Document analyzer tests require real files for full testing
+- Tests for `main.go` don't cover actual program entry due to testing limitations with functions using `os.Exit()`
